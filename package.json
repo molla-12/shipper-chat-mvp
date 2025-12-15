@@ -9,14 +9,20 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@prisma/client": "^7.1.0",
+    "jsonwebtoken": "^9.0.3",
     "next": "16.0.10",
+    "prisma": "^7.1.0",
     "react": "19.2.1",
-    "react-dom": "19.2.1"
+    "react-dom": "19.2.1",
+    "ws": "^8.18.3"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/ws": "^8.18.1",
     "eslint": "^9",
     "eslint-config-next": "16.0.10",
     "typescript": "^5"
