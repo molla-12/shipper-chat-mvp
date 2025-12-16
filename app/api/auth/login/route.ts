@@ -1,49 +1,22 @@
-// import { NextResponse } from 'next/server'
-// import { prisma } from '@/app/lib/prisma'
-// import { signToken } from '@/app/lib/auth'
-
-
-// export async function POST(req: Request) {
-// const { email, name } = await req.json()
-
-
-// let user = await prisma.user.findUnique({ where: { email } })
-
-
-// if (!user) {
-// user = await prisma.user.create({
-// data: { name, email, image: '/avatar.png' },
-// })
-// }
-
-
-// const token = signToken({ id: user.id, email: user.email })
-
-
-// return NextResponse.json({ token, user })
-// }
-
-// app/api/auth/login/route.ts
 import { NextResponse } from 'next/server'
  import { prisma } from '@/app/lib/prisma'
 import { signToken } from '@/app/lib/auth'
+import bcrypt from 'bcrypt'
 
 export async function POST(req: Request) {
-  const { email, name } = await req.json()
+  const { username, password } = await req.json()
 
-  let user = await prisma.user.findUnique({ where: { email } })
+  const user = await prisma.user.findUnique({ where: { username } })
 
   if (!user) {
-    user = await prisma.user.create({
-      data: { name, email, image: '/avatar.png' },
-    })
+    return NextResponse.json({ error: 'Invalid username or password' }, { status: 401 })
   }
 
-  const token = signToken({
-    id: user.id,
-    email: user.email,
-    name: user.name,
-  })
+  const valid = await bcrypt.compare(password, user.password)
+  if (!valid) {
+    return NextResponse.json({ error: 'Invalid username or password' }, { status: 401 })
+  }
 
+  const token = signToken({ id: user.id, username: user.username, name: user.name })
   return NextResponse.json({ token, user })
 }

@@ -1,23 +1,30 @@
 'use client'
 import { useState } from 'react'
 
-export default function LoginPage() {
+export default function SignupPage() {
   const [username, setUsername] = useState('')
+  const [name, setName] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
 
-  const login = async () => {
+  const signup = async () => {
+    if (!username || !password || !name) {
+      alert('All fields are required')
+      return
+    }
+
     setLoading(true)
-    const res = await fetch('/api/auth/login', {
+    const res = await fetch('/api/auth/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ username, password, name }),
     })
 
     const data = await res.json()
+    setLoading(false)
+
     if (data.error) {
       alert(data.error)
-      setLoading(false)
       return
     }
 
@@ -28,12 +35,18 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <div className="w-full max-w-md rounded-xl bg-white p-8 shadow">
-        <h1 className="mb-6 text-2xl font-bold">Shipper Chat</h1>
+        <h1 className="mb-6 text-2xl font-bold text-center">Sign Up</h1>
 
         <input
           className="mb-3 w-full rounded border p-3"
           placeholder="Username"
           onChange={(e) => setUsername(e.target.value)}
+        />
+
+        <input
+          className="mb-3 w-full rounded border p-3"
+          placeholder="Full Name"
+          onChange={(e) => setName(e.target.value)}
         />
 
         <input
@@ -44,15 +57,16 @@ export default function LoginPage() {
         />
 
         <button
-          onClick={login}
+          onClick={signup}
           disabled={loading}
           className="w-full rounded bg-black p-3 text-white"
         >
-          {loading ? 'Signing in…' : 'Sign in'}
+          {loading ? 'Signing up…' : 'Sign Up'}
         </button>
+
         <p className="mt-4 text-center text-sm text-gray-500">
-  Don't have an account? <a href="/signup" className="text-blue-500">Sign Up</a>
-</p>
+          Already have an account? <a href="/login" className="text-blue-500">Login</a>
+        </p>
       </div>
     </div>
   )
