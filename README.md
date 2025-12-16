@@ -1,12 +1,24 @@
-## Getting Started
-npx create-next-app@latest
-npx prisma migrate dev --name init
+Shipper Chat MVP
+A real-time chat application built with Next.js, WebSockets, and PostgreSQL. Features JWT authentication, online user tracking, and chat session management.
+# Clone the repository
+git clone https://github.com/molla-12/shipper-chat-mvp
+cd shipper-chat-mvp
+
+# Install dependencies
+npm install
+# Set up the database
 npx prisma db push
 npx prisma generate
-npm install dotenv
 
-to run the server   
-npx tsx server.ts  
+# Run both Next.js app AND WebSocket server (recommended for development)
+npm run dev:all
+
+# Or run them separately in different terminals:
+# Terminal 1 - Next.js app:
+npm run dev
+
+# Terminal 2 - WebSocket server:
+npm run ws
 
 #Signup
 
