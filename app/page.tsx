@@ -1,19 +1,13 @@
-'use client'
-
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 import LoginPage from './login/page'
+import { getCurrentUser } from '@/app/lib/auth'
+import { redirect } from 'next/navigation'
 
-export default function Home() {
-  const router = useRouter()
+export default async function Home() {
+  const user = await getCurrentUser()
 
-  useEffect(() => {
-    const token = localStorage.getItem('token')
+  if (user) {
+    redirect('/chat') // auto-redirect if logged in
+  }
 
-    if (token) {
-      router.replace('/chat')
-    }
-  }, [router])
-
-  return <LoginPage />
+  return <LoginPage /> // otherwise render login page
 }
