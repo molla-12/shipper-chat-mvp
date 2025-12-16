@@ -1,7 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  // Remove or comment out the output line
-  // output   = "../app/generated/prisma"
 }
 
 datasource db {
@@ -9,40 +7,39 @@ datasource db {
 }
 
 model User {
-  id           String              @id @default(cuid())
+  id           String            @id @default(cuid())
   name         String
-  email        String              @unique
+  email        String            @unique
   image        String?
+  createdAt    DateTime          @default(now())
+  chatSessions ChatSessionUser[]
   messages     Message[]
-  chatSessions ChatSessionUser[]   // Explicit relation
-  createdAt    DateTime            @default(now())
 }
 
 model ChatSession {
-  id        String              @id @default(cuid())
-  users     ChatSessionUser[]   // Explicit relation
+  id        String            @id @default(cuid())
+  createdAt DateTime          @default(now())
+  users     ChatSessionUser[]
   messages  Message[]
-  createdAt DateTime            @default(now())
 }
 
-// Explicit join table for many-to-many
 model ChatSessionUser {
-  user          User         @relation(fields: [userId], references: [id])
   userId        String
-  chatSession   ChatSession  @relation(fields: [chatSessionId], references: [id])
   chatSessionId String
-  joinedAt      DateTime     @default(now())
+  joinedAt      DateTime    @default(now())
+  chatSession   ChatSession @relation(fields: [chatSessionId], references: [id])
+  user          User        @relation(fields: [userId], references: [id])
 
   @@id([userId, chatSessionId])
   @@unique([userId, chatSessionId])
 }
 
 model Message {
-  id        String       @id @default(cuid())
+  id        String      @id @default(cuid())
   content   String
   senderId  String
   sessionId String
-  sender    User         @relation(fields: [senderId], references: [id])
-  session   ChatSession  @relation(fields: [sessionId], references: [id])
-  createdAt DateTime     @default(now())
+  createdAt DateTime    @default(now())
+  sender    User        @relation(fields: [senderId], references: [id])
+  session   ChatSession @relation(fields: [sessionId], references: [id])
 }
