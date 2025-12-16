@@ -1,19 +1,11 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
-
 ## Getting Started
+npx create-next-app@latest
+npx prisma migrate dev --name init
+npx prisma db push
+npx prisma generate
+npm install dotenv
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-run server   
+to run the server   
 npx tsx server.ts  
 
 #Signup
