@@ -1,8 +1,6 @@
 import 'dotenv/config'; 
-import { WebSocketServer } from 'ws'
+import ws, { WebSocketServer } from 'ws'
 import prisma from '@/app/lib/prisma'
-
-// const prisma = new PrismaClient()
 const wss = new WebSocketServer({ port: 3001 })
 
 // Track online users and their sessions
@@ -154,7 +152,6 @@ wss.on('connection', (ws) => {
   })
 })
 
-// Broadcast the online users list
 function broadcastUsers() {
   const users = Array.from(onlineUsers.keys())
   const payload = JSON.stringify({ 
