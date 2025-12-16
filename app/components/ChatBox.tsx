@@ -1,26 +1,40 @@
 'use client'
 import { useState } from 'react'
 
-
-export default function ChatBox({ ws }: any) {
-const [text, setText] = useState('')
-
-
-const send = () => {
-ws?.send(JSON.stringify({
-type: 'MESSAGE',
-content: text,
-senderId: 'demo-user',
-sessionId: 'demo-session',
-}))
-setText('')
+interface Props {
+  ws: WebSocket | null
+  sessionId: string
+  senderId: string
 }
 
+export default function ChatBox({ ws, sessionId, senderId }: Props) {
+  const [text, setText] = useState('')
 
-return (
-<div style={{ flex: 1, padding: 16 }}>
-<input value={text} onChange={(e) => setText(e.target.value)} />
-<button onClick={send}>Send</button>
-</div>
-)
+  const send = () => {
+    if (!text.trim() || !ws) return
+
+    ws.send(
+      JSON.stringify({
+        type: 'MESSAGE',
+        content: text,
+        senderId,
+        sessionId,
+      })
+    )
+    setText('')
+  }
+
+  return (
+    <div className="flex p-2 border-t">
+      <input
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        className="flex-1 border rounded p-2 mr-2"
+        placeholder="Type a message..."
+      />
+      <button onClick={send} className="bg-black text-white px-4 rounded">
+        Send
+      </button>
+    </div>
+  )
 }
