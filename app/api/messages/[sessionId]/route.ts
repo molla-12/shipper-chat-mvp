@@ -1,29 +1,16 @@
+
 import { NextResponse } from 'next/server'
 import prisma from '@/app/lib/prisma'
-import { verifyToken } from '@/app/lib/auth'
 
-interface Params {
-  params: { sessionId: string }
-}
-
-export async function GET(req: Request, { params }: Params) {
-  try {
-    const token = req.headers.get('Authorization')?.replace('Bearer ', '')
-    if (!token) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-
-    verifyToken(token)
-
-    const { sessionId } = params
-
-    const messages = await prisma.message.findMany({
-      where: { sessionId },
-      orderBy: { createdAt: 'asc' },
-      include: { sender: { select: { id: true, username: true, name: true, image: true } } },
-    })
-
-    return NextResponse.json({ messages })
-  } catch (err) {
-    console.error(err)
-    return NextResponse.json({ error: 'Something went wrong' }, { status: 500 })
-  }
+export async function GET(
+  req: Request,
+  context: { params: { sessionId: string } } // Next.js 13+ App Router
+) {
+  const { sessionId } = context.params // do NOT await here
+  const messages = await prisma.message.findMany({
+    where: { sessionId },
+    include: { sender: true },
+    orderBy: { createdAt: 'asc' },
+  })
+  return NextResponse.json(messages)
 }

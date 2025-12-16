@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 
 interface User {
   id: string
-  username: string
+  email: string
   name: string
   image?: string
 }
@@ -37,7 +37,7 @@ export default function UserList({ ws }: any) {
       <h3 className="font-bold mb-4">Users</h3>
       {users.map((u) => (
         <div key={u.id} className="mb-2">
-          {u.name} ({u.username})
+          {u.name} ({u.email})
         </div>
       ))}
     </div>

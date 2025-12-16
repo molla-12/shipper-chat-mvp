@@ -10,7 +10,7 @@ export async function GET(req: Request) {
     verifyToken(token)
 
     const users = await prisma.user.findMany({
-      select: { id: true, username: true, name: true, image: true },
+      select: { id: true, email: true, name: true, image: true },
     })
 
     return NextResponse.json({ users })
