@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@/app/lib/prisma'
+import prisma from '@/app/lib/prisma'
 import { signToken } from '@/app/lib/auth'
 import bcrypt from 'bcrypt'
 
