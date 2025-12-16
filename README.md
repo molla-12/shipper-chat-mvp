@@ -9,6 +9,7 @@ to run the server
 npx tsx server.ts  
 
 #Signup
+
 <img width="955" height="446" alt="signup" src="https://github.com/user-attachments/assets/4d18d70e-6902-41a1-a61b-c64a939dc809" />
 
 #login
@@ -16,8 +17,11 @@ npx tsx server.ts
 <img width="744" height="445" alt="login" src="https://github.com/user-attachments/assets/30b0c849-2922-4c43-9fed-1b7e40f1cd0b" />
 
 #chat 
+
 <img width="960" height="445" alt="chat page" src="https://github.com/user-attachments/assets/eebff53a-718d-496f-aeb3-d4911033c831" />
+
 #single user chat
+
 <img width="960" height="500" alt="message" src="https://github.com/user-attachments/assets/3f477b58-7bec-4afb-a07d-11d57315c1c3" />
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
