@@ -63,10 +63,12 @@ export async function POST(req: Request) {
       name: 'auth-token',
       value: token,
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+secure: true,
+      //secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       maxAge: 60 * 60 * 24 * 7,
       path: '/',
+
     })
 
     return response
