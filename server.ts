@@ -1,3 +1,4 @@
+import 'dotenv/config'; 
 import { WebSocketServer } from 'ws'
 import prisma from '@/app/lib/prisma'
 
@@ -60,24 +61,34 @@ wss.on('connection', (ws) => {
 
         try {
           // Store message in DB
-          const savedMessage = await prisma.message.create({
-            data: { 
-              content, 
-              senderId, 
-              sessionId 
-            },
-            include: { 
-              sender: { 
-                select: { 
-                  id: true, 
-                  email: true, 
-                  name: true, 
-                  image: true 
-                } 
-              } 
-            },
-          })
-
+        const savedMessage = await prisma.message.create({
+  data: {
+    content,
+    sender: {
+      connect: { id: senderId } // Ensures the sender exists
+    },
+    session: {
+      connectOrCreate: {
+        where: { id: sessionId },
+        create: { 
+          id: sessionId,
+          // If your Session model requires other fields (like title), add them here:
+          // title: "New Chat", 
+        }
+      }
+    }
+  },
+  include: {
+    sender: {
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        image: true
+      }
+    }
+  }
+})
           console.log('Message saved to DB:', savedMessage.id)
 
           // Find all users in this session
